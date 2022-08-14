@@ -4,13 +4,10 @@ import java.util.Arrays;
 import java.util.StringJoiner;
 
 public class Expressions {
-    private Variable var;
-    private static Variable[] variables;
-    private static Expression[] membersNew;
-    private static int membersCount = 0;
-    private static  int variablesCount = 0;
     private static Expression val;
     public static int value;
+
+
 
     public Expressions(int value) {
         Expressions.value = value;
@@ -19,7 +16,8 @@ public class Expressions {
 
 
     public static Variable var(String name, int value) {
-        Variable var = new Variable(name, value) {
+
+        return new Variable(name, value) {
             @Override
             public int evaluate() {
                 return value;
@@ -30,9 +28,9 @@ public class Expressions {
                 return name;
             }
         };
-
-        return var;
     }
+
+
 
     public static Expression val(int value) {
 
@@ -49,7 +47,7 @@ public class Expressions {
                 if(value<0) {
                     sb.append("(").append(value).append(")");
                 }
-                else if(value>=0) {
+                else {
                     sb.append(value);
                 }
 
@@ -60,11 +58,7 @@ public class Expressions {
     }
 
     public static Expression sum(Expression... members) {
-        membersNew = new Expression[members.length];
-        int j = 0;
-        for (int i = 0; i < members.length ; i++) {
-            membersNew[j++] = members[i];
-        }
+
         val = new Expression() {
             @Override
             public int evaluate() {
@@ -82,9 +76,9 @@ public class Expressions {
                 StringBuilder sb = new StringBuilder();
                 sb.append("(");
                 for (int i = 0; i < members.length - 1; i++) {
-                    sb.append(members[i].toExpressionString() + " + ");
+                    sb.append(members[i].toExpressionString()).append(" + ");
                 }
-                sb.append(members[members.length-1].toExpressionString() + (")"));
+                sb.append(members[members.length - 1].toExpressionString()).append(")");
                 return sb.toString();
 
             }
@@ -94,11 +88,6 @@ public class Expressions {
 
             public static Expression product(Expression... members) {
 
-                membersNew = new Expression[members.length];
-                int j = 0;
-                for (int i = 0; i < members.length ; i++) {
-                    membersNew[j++] = members[i];
-                }
                 val = new Expression() {
                     @Override
                     public int evaluate(){
@@ -115,9 +104,9 @@ public class Expressions {
                         StringBuilder sb = new StringBuilder();
                         sb.append("(");
                         for (int i = 0; i < members.length - 1; i++) {
-                            sb.append(members[i].toExpressionString() + " * ");
+                            sb.append(members[i].toExpressionString()).append(" * ");
                         }
-                        sb.append(members[members.length-1].toExpressionString() + (")"));
+                        sb.append(members[members.length - 1].toExpressionString()).append(")");
                         return sb.toString();
 
                     }
@@ -130,16 +119,13 @@ public class Expressions {
                 val = new Expression() {
                     @Override
                     public int evaluate() {
-                        int dif = minuend.evaluate() - subtrahend.evaluate();
-                        return dif;
+                        return minuend.evaluate() - subtrahend.evaluate();
                     }
 
 
                     @Override
                     public String toExpressionString() {
-                        StringBuilder sb = new StringBuilder();
-                        sb.append("(" + minuend.toExpressionString() + " - " + subtrahend.toExpressionString() + ")");
-                        return sb.toString();
+                        return "(" + minuend.toExpressionString() + " - " + subtrahend.toExpressionString() + ")";
 
                     }
                 };
@@ -150,15 +136,14 @@ public class Expressions {
                 val = new Expression() {
                     @Override
                     public int evaluate() {
-                        int frac = dividend.evaluate() / divisor.evaluate();
-                        return frac;
+                        return dividend.evaluate() / divisor.evaluate();
                     }
 
 
                     @Override
                     public String toExpressionString() {
                         StringBuilder sb = new StringBuilder();
-                        sb.append("(" + dividend.toExpressionString() + " / " + divisor.toExpressionString() + ")");
+                        sb.append("(").append(dividend.toExpressionString()).append(" / ").append(divisor.toExpressionString()).append(")");
                         return sb.toString();
 
                     }
